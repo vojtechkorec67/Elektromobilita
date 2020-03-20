@@ -122,4 +122,4 @@ n=neuralNetwork(vstupni_neurony,skryte_neurony,vystupni_neurony,ucici_koeficient
 
 ns=neuralNetwork(vstupni_neurony,skryte_neurony,vystupni_neurony,ucici_koeficient)
 
-print(ns.dotaz([1,0.5,-1.5]))
+print(ns.dotaz([0,0,0]))

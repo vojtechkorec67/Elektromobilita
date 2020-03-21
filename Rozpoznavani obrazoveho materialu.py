@@ -106,9 +106,9 @@ class neuralNetwork :
 
 # pocet vstupu, skrytych neuronu, vystupnich neuronu
 
-vstupni_neurony = 3
-skryte_neurony = 3
-vystupni_neurony = 3
+vstupni_neurony = 784
+skryte_neurony = 100
+vystupni_neurony = 10
 
 # learning rate
 
@@ -116,10 +116,29 @@ ucici_koeficient = 0.3
 
 # sestaveni neuronove site
 
-n=neuralNetwork(vstupni_neurony,skryte_neurony,vystupni_neurony,ucici_koeficient)
-
-# dotaz na neuronovou síť
-
 ns=neuralNetwork(vstupni_neurony,skryte_neurony,vystupni_neurony,ucici_koeficient)
 
-print(ns.dotaz([0,0,0]))
+# nacteni dat s obrazovym materialem
+trenovaci_data=open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_10.csv","r")
+trenovaci_data.data_list = trenovaci_data.readlines()
+
+# trenovani neuronove site
+for zaznam in trenovaci_data:
+    hodnoty_obrazu = zaznam.split(",")
+
+    # normalizování hodnot vstupních proměných do rozmezi (0.1 , 1.00)
+    normalizovane_hodnoty_vstupu = (np.asfarray(hodnoty_obrazu[1:]) / 255.0 * 0.99) + 0.01
+
+    # cílové matice hodnot pro trenovani neuronove site
+    cilova_matice_hodnot_vystupu = np.zeros(vystupni_neurony) + 0.01
+
+    # hodnoty[0] jsou klasifikace pro kazdy zaznam hodnot (pro kazdy pripad/pro kazdy radek)
+    cilova_matice_hodnot_vystupu[int(hodnoty_obrazu[0])] = 0.99
+
+    # trenovani neuronove site
+    ns.train(normalizovane_hodnoty_vstupu,cilova_matice_hodnot_vystupu)
+
+    pass
+
+
+

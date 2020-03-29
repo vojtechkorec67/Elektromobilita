@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
+import scipy.special
+
 warnings.filterwarnings("ignore")
 
 
@@ -37,6 +39,7 @@ class neuralNetwork :
         self.lr= ucici_koeficient
 
         # aktivační funkce
+        #self.aktivacni_funkce = lambda x: scipy.special.expit(x)
         self.aktivacni_funkce = lambda x: (np.exp(x)) / (np.exp(x) + 1)
 
         pass
@@ -78,7 +81,7 @@ class neuralNetwork :
 
         # aktualizace vah jednotlivych synapsi mezi vstupni a skrytou vrstvou
 
-        self.who += self.lr * np.dot((skryta_chyba * vystupy_sv * (1 - vystupy_sv)), np.transpose(vstupy))
+        self.wih += self.lr * np.dot((skryta_chyba * vystupy_sv * (1.0 - vystupy_sv)), np.transpose(vstupy))
 
         pass
 
@@ -110,20 +113,27 @@ vstupni_neurony = 784
 skryte_neurony = 100
 vystupni_neurony = 10
 
-# learning rate
+# ucici koeficienty
+ucici_koeficient = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
 
-ucici_koeficient = 0.3
+# presnost predikci pro ruznych ucicich koeficientech
+procentualni_presnost_predikci = []
+
+# realizace neuronovych siti pro jednotlive ucici koeficienty
+for i in ucici_koeficient:
+  hodnoceni_site = []
 
 # sestaveni neuronove site
 
-ns=neuralNetwork(vstupni_neurony,skryte_neurony,vystupni_neurony,ucici_koeficient)
+  ns=neuralNetwork(vstupni_neurony,skryte_neurony,vystupni_neurony,i)
 
-# nacteni dat s obrazovym materialem
-trenovaci_data=open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_10.csv","r")
-trenovaci_data.data_list = trenovaci_data.readlines()
+# nacteni trenovacich dat s obrazovym materialem
+  trenovaci_data=open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_train_full_size.csv","r")
+  trenovaci_data_list = trenovaci_data.readlines()
 
 # trenovani neuronove site
-for zaznam in trenovaci_data:
+  for zaznam in trenovaci_data_list :
+    # rozdeleni zaznamu pomoci ","
     hodnoty_obrazu = zaznam.split(",")
 
     # normalizování hodnot vstupních proměných do rozmezi (0.1 , 1.00)
@@ -139,6 +149,68 @@ for zaznam in trenovaci_data:
     ns.train(normalizovane_hodnoty_vstupu,cilova_matice_hodnot_vystupu)
 
     pass
+
+# nacteni testovacich dat
+  testovaci_data = open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_test_full_size.csv","r")
+  testovaci_data_list = testovaci_data.readlines()
+
+# hodnoceni site
+  #hodnoceni_site = []
+
+# testovani neuronove site
+  for zaznam in testovaci_data_list :
+
+
+  # rozdeleni zaznamu pomoci ","
+   hodnoty_obrazu = zaznam.split(",")
+
+  # correct answer
+   spravna_odpoved = int(hodnoty_obrazu[0])
+   #print(spravna_odpoved,"spravna odpoved")
+
+  # normalizování hodnot vstupních proměných do rozmezi (0.1 , 1.00)
+   vstupy = (np.asfarray(hodnoty_obrazu[1:]) / 255.0*0.99) + 0.01
+
+  # dotazovani neuronove site
+   vystupy_site = ns.dotaz(vstupy)
+
+  # index nejvyssi hodnoty odpovida label
+   label = np.argmax(vystupy_site)
+   #print(label, "predikce NS")
+
+  # pokud se "spravna odpoved" = "label" pak 1, jinak 0
+   if (label == spravna_odpoved) :
+     hodnoceni_site.append(1)
+   else:
+     hodnoceni_site.append(0)
+
+  #presnost_predikci.append(hodnoceni_site)
+  procentualni_presnost = (np.array(hodnoceni_site).sum() / len(hodnoceni_site))
+  procentualni_presnost_predikci.append(procentualni_presnost)
+
+pass
+
+# graficke znazorneni presnosti predikci
+
+sns.lineplot(x=ucici_koeficient,y=procentualni_presnost_predikci)
+plt.title("Presnost site v zavislosti na ucicim koeficientu")
+plt.xlabel("ucici koeficient")
+plt.ylabel("presnost site")
+plt.yticks(np.arange(0.7,0.99,0.01))
+plt.savefig("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\presnost_v_zavislosti_na_ucicim_koeficientu.png")
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

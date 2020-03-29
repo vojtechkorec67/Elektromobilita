@@ -1,0 +1,14 @@
+A pixel is represented by a dot or square on a computer monitor display screen. Pixels are the basic building blocks of
+a digital image or display and are created using geometric coordinates. Depending on the graphics card and display monitor,
+the quantity, size and color combination of pixels varies and is measured in terms of the display resolution.
+For example, a computer with a display resolution of 1280 x 768 will produce a maximum of 98,3040 pixels on a display screen.
+Each pixel has a unique logical address, a size of eight bits or more and, in most high-end display devices, the ability to project
+millions of different colors.The pixel resolution spread also determines the quality of display; more pixels per inch of
+monitor screen yields better image results.
+
+Each of the pixels that represents an image stored inside a computer has a pixel value which describes how bright that pixel is,
+and/or what color it should be. In the simplest case of binary images, the pixel value is a 1-bit number indicating either
+foreground or background. For a grayscale images, the pixel value is a single number that represents the brightness of the pixel.
+The most common pixel format is the byte image, where this number is stored as an 8-bit integer giving a range of possible values
+from 0 to 255. Typically zero is taken to be black, and 255 is taken to be white. Values in between make up the different shades
+of gray.

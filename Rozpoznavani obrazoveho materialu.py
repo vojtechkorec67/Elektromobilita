@@ -128,7 +128,7 @@ for i in ucici_koeficient:
   ns=neuralNetwork(vstupni_neurony,skryte_neurony,vystupni_neurony,i)
 
 # nacteni trenovacich dat s obrazovym materialem
-  trenovaci_data=open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_train_100.csv","r")
+  trenovaci_data=open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_train_full_size.csv","r")
   trenovaci_data_list = trenovaci_data.readlines()
 
 # trenovani neuronove site
@@ -156,7 +156,7 @@ for i in ucici_koeficient:
     pass
    pass
 # nacteni testovacich dat
-  testovaci_data = open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_10.csv","r")
+  testovaci_data = open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_test_full_size.csv","r")
   testovaci_data_list = testovaci_data.readlines()
 
 # hodnoceni site
@@ -203,7 +203,7 @@ plt.xlabel("ucici koeficient")
 plt.ylabel("presnost site")
 #plt.yticks(np.arange(0.7,0.99,0.01)) # souradnice y pro velky dataset
 plt.yticks(np.arange(0.5,0.99,0.10))
-plt.savefig("C:\\Users\\korec\\PycharmProjects\\elektromobilita_update\\presnost_v_zavislosti_na_ucicim_koeficientu_maly_dataset.png")
+plt.savefig("C:\\Users\\korec\\PycharmProjects\\elektromobilita_update\\presnost_v_zavislosti_na_ucicim_koeficientu.png")
 plt.show()
 
 

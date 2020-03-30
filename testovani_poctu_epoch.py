@@ -172,18 +172,17 @@ for epocha in range(epochy) :
     ns.train(normalizovane_hodnoty_vstupu,cilova_matice_hodnot_vystupu)
 
 
-
     pass
 
 # nacteni testovacich dat
-  testovaci_data = open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_10.csv","r")
-  testovaci_data_list = testovaci_data.readlines()
+testovaci_data = open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_10.csv","r")
+testovaci_data_list = testovaci_data.readlines()
 
 # hodnoceni site
   #hodnoceni_site = []
 
 # testovani neuronove site
-  for zaznam in testovaci_data_list :
+for zaznam in testovaci_data_list :
 
 
   # rozdeleni zaznamu pomoci ","
@@ -191,7 +190,7 @@ for epocha in range(epochy) :
 
   # correct answer
    spravna_odpoved = int(hodnoty_obrazu[0])
-   #print(spravna_odpoved,"spravna odpoved")
+   print(spravna_odpoved,"spravna odpoved")
 
   # normalizování hodnot vstupních proměných do rozmezi (0.1 , 1.00)
    vstupy = (np.asfarray(hodnoty_obrazu[1:]) / 255.0*0.99) + 0.01
@@ -201,7 +200,7 @@ for epocha in range(epochy) :
 
   # index nejvyssi hodnoty odpovida label
    label = np.argmax(vystupy_site)
-   #print(label, "predikce NS")
+   print(label, "predikce NS")
 
   # pokud se "spravna odpoved" = "label" pak 1, jinak 0
    if (label == spravna_odpoved) :
@@ -210,24 +209,13 @@ for epocha in range(epochy) :
      hodnoceni_site.append(0)
 
   #presnost_predikci.append(hodnoceni_site)
-  procentualni_presnost = (np.array(hodnoceni_site).sum() / len(hodnoceni_site))
-  procentualni_presnost_predikci.append(procentualni_presnost)
-
+procentualni_presnost = (np.array(hodnoceni_site).sum() / len(hodnoceni_site))
+procentualni_presnost_predikci.append(procentualni_presnost)
 
 pass
 
-# graficke znazorneni presnosti predikci
-
-sns.lineplot(x=list(range(1,11)),y=procentualni_presnost_predikci)
-plt.title("Presnost site v zavislosti na poctu epoch")
-plt.xlabel("pocet epoch")
-plt.ylabel("presnost site")
-#plt.yticks(np.arange(0.7,0.99,0.01)) # souradnice y pro velky dataset
-plt.yticks(np.arange(0.5,1.1,0.10))
-plt.xticks(np.arange(1,22,5))
-plt.savefig("C:\\Users\\korec\\PycharmProjects\\elektromobilita_update\\presnost_v_zavislosti_na_poctu epoch_velky_dataset.png")
-plt.show()
-
+# procentualni presnost site
+print(procentualni_presnost)
 
 # ulozeni vah site
 ns.ulozit()

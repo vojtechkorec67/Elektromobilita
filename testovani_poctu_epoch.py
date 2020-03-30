@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
-import scipy.special
+import scipy.misc
+import imageio
 
 warnings.filterwarnings("ignore")
 
@@ -107,10 +108,28 @@ class neuralNetwork :
 
         pass
 
+    # uložení vah neuronové sítě
+    def ulozit(self):
+        np.save("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\vahy_site\\wih_full_MNIST.npy",self.wih)
+        np.save("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\vahy_site\\wih_full_MNIST.npy",self.who)
+
+        pass
+
+    # nahrání vah neuronové sítě
+    def nahrat(self):
+        self.wih = np.load("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\vahy_site\\wih_full_MNIST.npy")
+        self.who = np.load("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\vahy_site\\wih_full_MNIST.npy")
+
+        pass
+
+    pass
+
+
+
 # pocet vstupu, skrytych neuronu, vystupnich neuronu
 
 vstupni_neurony = 784
-skryte_neurony = 100
+skryte_neurony = 200
 vystupni_neurony = 10
 
 # ucici koeficienty
@@ -125,13 +144,14 @@ hodnoceni_site = []
 
 ns=neuralNetwork(vstupni_neurony,skryte_neurony,vystupni_neurony,ucici_koeficient)
 
+
 # nacteni trenovacich dat s obrazovym materialem
-trenovaci_data=open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_train_full_size.csv","r")
+trenovaci_data=open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_train_100.csv","r")
 trenovaci_data_list = trenovaci_data.readlines()
 
 # trenovani neuronove site
 # nastaveni poctu epoch, nam rika, kolikrat budou trenovaci data pouzita pro trenovani
-epochy = 20
+epochy = 10
 
 for epocha in range(epochy) :
 
@@ -152,10 +172,11 @@ for epocha in range(epochy) :
     ns.train(normalizovane_hodnoty_vstupu,cilova_matice_hodnot_vystupu)
 
 
+
     pass
 
 # nacteni testovacich dat
-  testovaci_data = open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_test_full_size.csv","r")
+  testovaci_data = open("C:\\Users\\korec\\PycharmProjects\\Elektromobilita\\mnist_10.csv","r")
   testovaci_data_list = testovaci_data.readlines()
 
 # hodnoceni site
@@ -192,11 +213,12 @@ for epocha in range(epochy) :
   procentualni_presnost = (np.array(hodnoceni_site).sum() / len(hodnoceni_site))
   procentualni_presnost_predikci.append(procentualni_presnost)
 
+
 pass
 
 # graficke znazorneni presnosti predikci
 
-sns.lineplot(x=list(range(1,21)),y=procentualni_presnost_predikci)
+sns.lineplot(x=list(range(1,11)),y=procentualni_presnost_predikci)
 plt.title("Presnost site v zavislosti na poctu epoch")
 plt.xlabel("pocet epoch")
 plt.ylabel("presnost site")
@@ -205,3 +227,13 @@ plt.yticks(np.arange(0.5,1.1,0.10))
 plt.xticks(np.arange(1,22,5))
 plt.savefig("C:\\Users\\korec\\PycharmProjects\\elektromobilita_update\\presnost_v_zavislosti_na_poctu epoch_velky_dataset.png")
 plt.show()
+
+
+# ulozeni vah site
+ns.ulozit()
+
+
+
+
+
+
